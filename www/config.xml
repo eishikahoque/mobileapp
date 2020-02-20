@@ -2,17 +2,17 @@
 
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.eishika.mobile"
+        id        = "com.sheridan.imm.collective"
         version   = "3.0.1">
 
-    <name>Eishika Mobile App</name>
+    <name>eishika</name>
 
     <description>
-       Mobile pplication in the process
+        kaaaa
     </description>
 
     <author href="http://eishika.com" email="eishika.hoque@gmail.com">
-       Eishika Hoqie
+       eishika
     </author>
 
     <!--
