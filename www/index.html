@@ -14,6 +14,8 @@
 <script src="https://zimjs.org/cdn/1.2.4/createjs.js"></script>
 <script src="https://zimjs.org/cdn/10.8.0/zim.js"></script>
 <script src="https://zimjs.org/cdn/game_2.2.js"></script>
+<script src="https://d309knd7es5f10.cloudfront.net/pizzazz_02.js"></script>
+
 
 <script>
 
@@ -31,7 +33,7 @@
         let stageW = frame.width;
         let stageH = frame.height;
 
-        let wordChoices = ['Dinosaur', 'Dragon', 'Angry', 'Baby', 'Book', 'Butterfly', 'Crayon', ' Eiffel Tower', 'Fireworks', 'Flower', 'Giraffe', 'High Heels', 'Ice Cream', 'Lion', 'Pizza', 'Rainbow', 'Snowflake', 'Stawberry', 'Blueberry', 'Toothbrush', 'Truck', 'Brain', 'Castle', 'Computer', 'Circus Tent', 'Dumbbell', 'Ferris Wheel', 'Flag', ' Lipstick', 'Lobster', 'Lollipop', 'Mermaid', 'Music', 'Nurse', 'Owl', 'Piano', 'Playground', 'Apple Pie', 'Raindrop', 'Robot', 'Sprinkler', 'Telescope', 'Train', 'Tutu', 'Birthday', 'Blizzard', 'Burrito', 'Captain', 'Chandelier', 'Crib', 'Dance', 'Full Moon', 'Glue', 'Hockey', 'Hotel', 'Koala', 'Light', 'Mask', 'Mom', 'Dad', 'Photo', 'Pirate', 'Egg', ' Space', 'Tourist', 'Wifi', 'Canada', 'United States', 'Zombies', 'Basketball', 'Soccer', 'Golf', 'Scissors', 'Rock', 'Airplane', 'Anchor', 'Astronaut', 'Doctor', 'Christmas Tree', 'Dress', 'Apple', 'Banana', 'Grape', 'Bubbles', 'Cereal', 'Cloud', 'Superman', 'Batman', 'Iron Man', 'Easter', 'Halloween', 'Cricket', 'Spider', 'Moutain', 'Sofa', 'Chocolate', 'Bouquet', 'Picnic', 'Gas', 'Bike', 'Bed', 'Bell', 'Jellyfish', 'Kangaroo', 'Penguin', 'Jeans', 'Nails', 'Watermelon', 'Wind', 'Jungle', 'Diaper', 'Scream', 'Password', 'Vegetarian', 'Bagel', 'Taj Mahal', 'Injection', 'Black Hole', 'Corona Virus', 'Thermometer', 'DVD', 'TV'];
+        let wordChoices = ['Dinosaur', 'Dragon', 'Angry', 'Baby', 'Book', 'Butterfly', 'Crayon', ' Eiffel Tower', 'Fireworks', 'Flower', 'Giraffe', 'High Heels', 'Ice Cream', 'Lion', 'Pizza', 'Rainbow', 'Snowflake', 'Stawberry', 'Blueberry', 'Toothbrush', 'Truck', 'Brain', 'Castle', 'Computer', 'Circus Tent', 'Dumbbell', 'Ferris Wheel', 'Flag', ' Lipstick', 'Lobster', 'Lollipop', 'Mermaid', 'Music', 'Nurse', 'Owl', 'Piano', 'Playground', 'Apple Pie', 'Raindrop', 'Robot', 'Sprinkler', 'Telescope', 'Train', 'Tutu', 'Birthday', 'Blizzard', 'Burrito', 'Captain', 'Chandelier', 'Crib', 'Dance', 'Full Moon', 'Glue', 'Hockey', 'Hotel', 'Koala', 'Light', 'Mask', 'Mom', 'Dad', 'Photo', 'Pirate', 'Egg', ' Space', 'Tourist', 'Wifi', 'Canada', 'United States', 'Zombies', 'Basketball', 'Soccer', 'Golf', 'Scissors', 'Rock', 'Airplane', 'Anchor', 'Astronaut', 'Doctor', 'Christmas Tree', 'Dress', 'Apple', 'Banana', 'Grape', 'Bubbles', 'Cereal', 'Cloud', 'Superman', 'Batman', 'Iron Man', 'Easter', 'Halloween', 'Cricket', 'Spider', 'Moutain', 'Sofa', 'Chocolate', 'Bouquet', 'Picnic', 'Gas', 'Bike', 'Bed', 'Bell', 'Jellyfish', 'Kangaroo', 'Penguin', 'Jeans', 'Nails', 'Watermelon', 'Wind', 'Jungle', 'Diaper', 'Scream', 'Password', 'Vegetarian', 'Bagel', 'Taj Mahal', 'Injection', 'Black Hole', 'Corona Virus', 'Thermometer', 'DVD', 'TV', 'Gold Fish'];
 
         const defaultLabel = {
             size: '24',
@@ -159,32 +161,29 @@
         });
 
         // GAME PAGE
-
-        const gamePage = new Container(stageW, stageH).addTo(stage);
-        
+        const gamePage = new Container(stageW, stageH).addTo(stage);       
         const header = new Container(gamePage.width, gamePage.height*.1).addTo(gamePage);
         
-        // SCORE 
-        
+        // SCORE       
         let scoreValue = new Scorer({
             ... defaultLabel,
-            align: 'right',
+            align: 'center',
             width: 250,
             backgroundColor: '#840C43',
             size: 48,
         })
-        .pos(90, 0, LEFT, CENTER, header)
-        .scaleTo(header);
+        .scaleTo(header, null, 50, 'both')
+        .pos(0, 0, LEFT, CENTER, header);
         
         let score = new Label({
             ...defaultLabel,
             text: 'Score',
+            size: 26,
         })
-        .scaleTo(header)
-        .pos(0, 0, LEFT, CENTER, scoreValue);
+        .scaleTo(header, null, 50, 'both')
+        .pos(10, 0, LEFT, CENTER, scoreValue);
         
         // TIMER
-        
         let timerValue = new Timer({
             ... defaultLabel,
             width: 10,
@@ -193,8 +192,8 @@
             align: 'right',
             backgroundColor: '#840C43',
         })
-        .scaleTo(header)
-        .pos(0,0, RIGHT, CENTER, header);
+        .scaleTo(header, null, 50, 'both')
+        .pos(10,0, RIGHT, CENTER, header);
         
         timerValue.on('step', () => {
             if(timerValue.time <= 10) {
@@ -202,21 +201,21 @@
             }
         });
         
-        // timerValue.on('complete', () => {
-            
-        // })
-
-        
-            
+        timerValue.on('complete', () => {
+            colorFooter.removeFrom(gamePage);
+            pen.stop(gamePage);
+            clearBtn.removeFrom(gamePage)
+            calculateScoreFooter.pos(0, 20, CENTER, BOTTOM, gamePage);
+        });
+         
         // FOOTER 
-        const colorFooter = new Container(gamePage.width, gamePage.height*.2).addTo(gamePage);
+        const colorFooter = new Container(gamePage.width, gamePage.height*.1).addTo(gamePage);
         
         // COLOR PICKER
-        
         let colors = new ColorPicker({
             width: colorFooter.width,
             spacing: 4,
-            colors: ['#FFF', '#FFEE00', '#FF7B00', '#FF0000', '#840C43', '#92C023', '#63C3D4', '#0C5684', '#A55ECC'],
+            colors: ['#FFF', '#ECE44A', '#F07811', '#FF014E', '#840C43', '#92C023', '#01B0D6', '#0C5684', '#A55ECC'],
             circles: true,
             cols: 9,
             
@@ -226,14 +225,56 @@
         .change((e) => {
             pen.color = e.target.selectedColor;
         });
+
+        const calculateScoreFooter = new Container(gamePage.width*.5, gamePage.height*.1);
+
+        let successBtn = new Button({
+            label: new  Label({ ...defaultLabel, text: 'Correct'}),
+            corner: 5, 
+            backgroundColor: '#840C43',
+            rollBackgroundColor: '#840C43',
+            width: 175, 
+            height: 70
+        }).pos(0, 0, RIGHT, CENTER, calculateScoreFooter);
+
+        successBtn.on('click', () => {
+            scoreValue + 1;
+            pages.go(wordPage, 'down');
+        });
+        
+        let incorrectBtn = new Button({
+            label: new  Label({ ...defaultLabel, text: 'Incorrect'}),
+            corner: 5, 
+            backgroundColor: '#141414',
+            rollBackgroundColor: '#141414',
+            width: 175, 
+            height: 70
+        }).pos(0, 0, LEFT, CENTER, calculateScoreFooter);
+
+        incorrectBtn.on('click', () => {
+            scoreValue + 0
+        });
         
         // CANVAS
-        // const canvas = new Container(gamePage.width, gamePage.height).addTo(gamePage);
+
+        const clearBtn = new Button({
+            label: new Label({ ...defaultLabel, text: 'Clear'}),
+            corner: 5, 
+            align: 'center',
+            backgroundColor: 'black',
+            rollBackgroundColor: 'black',
+            width: 80,
+            height: 50,
+        }).pos(gamePage.width*.02, gamePage.height*.12, LEFT, TOP, gamePage)
+
+        clearBtn.on('click', () => {
+            pen.clear();
+        });
 
         const pen = new Pen({
-            size: 8,
+            size: 6,
             color: '#fff',
-            // paper: canvas,
+            draggable: false
         }).center(gamePage);
 
         // stop dragging
@@ -241,14 +282,14 @@
         const motionController = new MotionController({
             target: pen, 
             type: "pressmove",
-            speed: 25,
-            damp: .5,
-            draggable: false,
+            speed: 80,
+            damp: 0.9,
         });
 
-        pen.setBounds(gamePage.width, (gamePage.height-(header.height+colorFooter.height)))
 
-        // clear canvas button
+
+        // const scoreCalculatePage = new Container(stageW/2, stage/2);
+        // scoreCalculatePage.backing = new Rectangle(scoreCalculatePage.width, scoreCalculatePage.height).center(scoreCalculatePage)
 
     // LAYOUT MANAGER
         
@@ -257,12 +298,11 @@
             new Layout(gamePage,
             [
                 { object: header, backgroundColor: '#840C43' }, 
-                // { object: canvas, backgroundColor: '#000'},
                 { object: colorFooter, backgroundColor: '#000' }
-            ], 0, null, true, new Shape(), stage
+            ], 0, null, true, null, stage
         ));
         
-        // layoutManager.dispose();
+        layoutManager.dispose();
 
         // TRANSITION FOR ALL PAGES 
         
@@ -304,14 +344,7 @@
             
             // scaling gamePage
             layoutManager.resize();
-            // gamePage.setBounds(stageW, stageH);
-            // gamePage.backing.siz(stageW, stageH);
-            // gamePage.header.siz(stageW, stageH*.1).pos(0,0, LEFT, TOP);
-            // gamePage.footer.siz(stageW, stageH*.1).pos(0,0, LEFT, BOTTOM);
-            // gamePage.score.center().pos(10, 0, LEFT, CENTER, gamePage.header);
-            // gamePage.scoreValue.center().pos(70, 0, LEFT, CENTER, gamePage.header);
-            // gamePage.timer.center().pos(90, 0, RIGHT, CENTER, gamePage.header);
-            // gamePage.timerValue.center().pos(10,0, RIGHT, CENTER, gamePage.header);
+            gamePage.setBounds(stageW, stageH);
             
             // grid.resize();
 
