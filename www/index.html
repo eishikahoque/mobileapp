@@ -4,60 +4,324 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Tilty</title>
+<title>Drawing Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
 
-<!-- Welcome to ZIM at http://zimjs.com - Code Interactive Media Pizzazz! 	        -->
-<!-- ZIM runs on the HTML Canvas powered by JavaScript and CreateJS http://createjs.com -->
-<!-- Founded by Inventor Dan Zen - http://danzen.com - Canadian New Media Award Winner 	-->
-<!-- ZIM is free to use. You can donate to help improve ZIM at http://zimjs.com/donate 	-->
-
-<script src="libraries/createjs-2015.11.26.min.js"></script>
 <script>
 	var zon = true; // set to false to turn off console messages from zim
 	var zns = false; // set to true to require zim namespace - eg. new zim.Frame()
 </script>
-<script src="libraries/zim_6.4.0.js"></script>
-<!-- use zimjs.com/code/distill for minified individual functions! -->
+<script src="https://zimjs.org/cdn/1.2.4/createjs.js"></script>
+<script src="https://zimjs.org/cdn/10.8.0/zim.js"></script>
+<script src="https://zimjs.org/cdn/game_2.2.js"></script>
 
 <script>
 
-// SCALING OPTIONS
-// scaling can have values as follows with full being the default
-// "fit"	sets canvas and stage to dimensions and scales to fit inside window size
-// "outside"	sets canvas and stage to dimensions and scales to fit outside window size
-// "full"	sets stage to window size with no scaling
-// "tagID"	add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+    const scaling = "full"; 
+    const width = null;
+    const height = null;
+    const color = 'black'; 
+    const outerColor = 'black'; 
 
+    const frame = new Frame(scaling, width, height, color, outerColor);
+    frame.on("ready", () => { 
+        zog("ready from ZIM Frame"); 
 
-// as of ZIM 5.5.0 you do not need to put zim before ZIM functions and classes
-var frame = new Frame();
-frame.on("ready", function() {
-    zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+        const stage = frame.stage;
+        let stageW = frame.width;
+        let stageH = frame.height;
 
-    var stage = frame.stage;
-    var stageW = frame.width;
-    var stageH = frame.height;
-    frame.color = frame.pink;
+        let wordChoices = ['Dinosaur', 'Dragon', 'Angry', 'Baby', 'Book', 'Butterfly', 'Crayon', ' Eiffel Tower', 'Fireworks', 'Flower', 'Giraffe', 'High Heels', 'Ice Cream', 'Lion', 'Pizza', 'Rainbow', 'Snowflake', 'Stawberry', 'Blueberry', 'Toothbrush', 'Truck', 'Brain', 'Castle', 'Computer', 'Circus Tent', 'Dumbbell', 'Ferris Wheel', 'Flag', ' Lipstick', 'Lobster', 'Lollipop', 'Mermaid', 'Music', 'Nurse', 'Owl', 'Piano', 'Playground', 'Apple Pie', 'Raindrop', 'Robot', 'Sprinkler', 'Telescope', 'Train', 'Tutu', 'Birthday', 'Blizzard', 'Burrito', 'Captain', 'Chandelier', 'Crib', 'Dance', 'Full Moon', 'Glue', 'Hockey', 'Hotel', 'Koala', 'Light', 'Mask', 'Mom', 'Dad', 'Photo', 'Pirate', 'Egg', ' Space', 'Tourist', 'Wifi', 'Canada', 'United States', 'Zombies', 'Basketball', 'Soccer', 'Golf', 'Scissors', 'Rock', 'Airplane', 'Anchor', 'Astronaut', 'Doctor', 'Christmas Tree', 'Dress', 'Apple', 'Banana', 'Grape', 'Bubbles', 'Cereal', 'Cloud', 'Superman', 'Batman', 'Iron Man', 'Easter', 'Halloween', 'Cricket', 'Spider', 'Moutain', 'Sofa', 'Chocolate', 'Bouquet', 'Picnic', 'Gas', 'Bike', 'Bed', 'Bell', 'Jellyfish', 'Kangaroo', 'Penguin', 'Jeans', 'Nails', 'Watermelon', 'Wind', 'Jungle', 'Diaper', 'Scream', 'Password', 'Vegetarian', 'Bagel', 'Taj Mahal', 'Injection', 'Black Hole', 'Corona Virus', 'Thermometer', 'DVD', 'TV'];
 
-    // see http://zimjs.com/code/learn.html for video and code tutorials
-    // see http://zimjs.com/code/docs.html for documentation
-    // see http://zimjs.com/code/bits.html for 64 Interactive Media techniques
+        const defaultLabel = {
+            size: '24',
+            font: 'Playfair Display',
+            color: '#fff',
+        };
 
-    // put your code here (you can delete this sample code)
+        const startLabel = new Label({
+            ...defaultLabel,
+            text: 'Start',
+            color: '#840C43'
+        });
 
-    var circle = new Circle(100, frame.blue);
-    circle.center(stage).drag();
+        const instructionsBtn = new Label({
+            ...defaultLabel,
+            text: 'How to Play'
+        });
 
-    frame.on("resize", function() {
-        stageW = frame.width;
-        stageH = frame.height;
-        circle.center(stage);
-        stage.update();
-    });
+        const backBtn = new Label({
+            ...defaultLabel,
+            text: 'Back',
+            color: '#840C43'
+        });
 
-    stage.update(); // this is needed to show any changes
+        const shuffleLabel = new Label({
+            ...defaultLabel,
+            text: 'Skip'
+        });
 
-}); // end of ready
+        const playLabel = new Label({
+            ...defaultLabel,
+            text: 'Play',
+            color: '#840C43'
+        });
+
+        // HOME PAGE 
+
+        const home = new Container(stageW, stageH);
+        home.backing = new Rectangle(home.width, home.height, '#840C43').addTo(home);
+        home.startBtn = new Button({
+            width: 250,
+            height: 60,
+            label: startLabel,
+            backgroundColor: '#fff',
+            rollBackgroundColor: '#F9F9F9',
+            corner: 5
+        }).center(home);
+
+        home.instructionsBtn = new Button({
+            width: 250,
+            height: 60,
+            label: instructionsBtn,
+            backgroundColor: '#944B6D',
+            rollBackgroundColor: '#944B6D',
+            corner: 5
+        }).center(home);
+
+        home.startBtn.on("mousedown", () => { 
+            pages.go(wordPage, "right");
+        });
+
+        home.instructionsBtn.on("mousedown", () => { 
+            pages.go(instructionPage, "left");
+        });
+        
+        // INSTRUCTIONS PAGE 
+
+        const instructionPage = new Container(stageW, stageH);
+        instructionPage.backing = new Rectangle(instructionPage.width, instructionPage.height, '#840C43').addTo(instructionPage);
+        instructionPage.backBtn = new Button({
+            width: 75,
+            height: 60,
+            label: backBtn,
+            backgroundColor: '#fff',
+            rollBackgroundColor: '#F9F9F9',
+            corner: 5
+        }).center(instructionPage);
+        instructionPage.backBtn.on("mousedown", () => { 
+            pages.go(home, "right");
+        });
+
+        // CHOOSE WORD PAGE
+
+        const wordPage = new Container(stageW, stageH);
+        wordPage.backing = new Rectangle(wordPage.width, wordPage.height, '#840C43').addTo(wordPage);
+
+        let potentialWord = shuffle(wordChoices)[0];
+        wordChoices = wordChoices.filter((word) => word !== potentialWord);
+        wordPage.word = new Label({
+            ...defaultLabel,
+            text: potentialWord,
+            size: 48,
+            align: 'center'
+        }).center(wordPage);
+        
+        wordPage.shuffleBtn = new Button({
+            width: 130,
+            height: 60,
+            label: shuffleLabel,
+            backgroundColor: '#141414',
+            rollBackgroundColor: '#141414',
+            corner: 5
+        }).center(wordPage);
+
+        wordPage.playBtn = new Button({
+            width: 130,
+            height: 60,
+            label: playLabel,
+            backgroundColor: '#fff',
+            rollBackgroundColor: '#f9f9f9',
+            corner: 5
+        }).center(wordPage);
+
+        wordPage.shuffleBtn.on("mousedown", () => {
+            potentialWord = shuffle(wordChoices)[0];
+            wordChoices = wordChoices.filter((word) => word !== potentialWord);
+            wordPage.word.text = potentialWord;
+            stage.update();
+        });
+
+        wordPage.playBtn.on("mousedown", () => { 
+            pages.go(gamePage, "right");
+            timerValue.start(15)
+
+        });
+
+        // GAME PAGE
+
+        const gamePage = new Container(stageW, stageH).addTo(stage);
+        
+        const header = new Container(gamePage.width, gamePage.height*.1).addTo(gamePage);
+        
+        // SCORE 
+        
+        let scoreValue = new Scorer({
+            ... defaultLabel,
+            align: 'right',
+            width: 250,
+            backgroundColor: '#840C43',
+            size: 48,
+        })
+        .pos(90, 0, LEFT, CENTER, header)
+        .scaleTo(header);
+        
+        let score = new Label({
+            ...defaultLabel,
+            text: 'Score',
+        })
+        .scaleTo(header)
+        .pos(0, 0, LEFT, CENTER, scoreValue);
+        
+        // TIMER
+        
+        let timerValue = new Timer({
+            ... defaultLabel,
+            width: 10,
+            size: 36,
+            startPaused: true,
+            align: 'right',
+            backgroundColor: '#840C43',
+        })
+        .scaleTo(header)
+        .pos(0,0, RIGHT, CENTER, header);
+        
+        timerValue.on('step', () => {
+            if(timerValue.time <= 10) {
+                timerValue.color = '#FF0000';
+            }
+        });
+        
+        // timerValue.on('complete', () => {
+            
+        // })
+
+        
+            
+        // FOOTER 
+        const colorFooter = new Container(gamePage.width, gamePage.height*.2).addTo(gamePage);
+        
+        // COLOR PICKER
+        
+        let colors = new ColorPicker({
+            width: colorFooter.width,
+            spacing: 4,
+            colors: ['#FFF', '#FFEE00', '#FF7B00', '#FF0000', '#840C43', '#92C023', '#63C3D4', '#0C5684', '#A55ECC'],
+            circles: true,
+            cols: 9,
+            
+        })
+        .scaleTo(colorFooter)
+        .center(colorFooter)
+        .change((e) => {
+            pen.color = e.target.selectedColor;
+        });
+        
+        // CANVAS
+        // const canvas = new Container(gamePage.width, gamePage.height).addTo(gamePage);
+
+        const pen = new Pen({
+            size: 8,
+            color: '#fff',
+            // paper: canvas,
+        }).center(gamePage);
+
+        // stop dragging
+
+        const motionController = new MotionController({
+            target: pen, 
+            type: "pressmove",
+            speed: 25,
+            damp: .5,
+            draggable: false,
+        });
+
+        pen.setBounds(gamePage.width, (gamePage.height-(header.height+colorFooter.height)))
+
+        // clear canvas button
+
+    // LAYOUT MANAGER
+        
+        const layoutManager = new LayoutManager();
+        layoutManager.add(
+            new Layout(gamePage,
+            [
+                { object: header, backgroundColor: '#840C43' }, 
+                // { object: canvas, backgroundColor: '#000'},
+                { object: colorFooter, backgroundColor: '#000' }
+            ], 0, null, true, new Shape(), stage
+        ));
+        
+        // layoutManager.dispose();
+
+        // TRANSITION FOR ALL PAGES 
+        
+        const pages = new Pages({
+            pages: [
+                {page: home, swipe:[wordPage, instructionPage, null, null]}, // swipe:["right", "left", "down", "up"]
+                {page: wordPage, swipe:[gamePage, home,  null, null]},
+                {page: instructionPage, swipe:[home, null,  null, null]},
+                {page: gamePage, swipe:[null, null,  null, null]},
+            ],
+            transition: "slide"
+        }).addTo();
+        
+        // const grid = new Grid(); 
+
+        // RESIZE FRAME 
+        
+        frame.on("resize", () => {
+            stageW = frame.width; 
+            stageH = frame.height;
+
+            // scaling home
+            home.setBounds(stageW, stageH);
+            home.backing.siz(stageW, stageH);
+            home.startBtn.center().mov(0, 150);
+            home.instructionsBtn.center().mov(0, 225);
+
+            // scaling instructionPage
+            instructionPage.setBounds(stageW, stageH);
+            instructionPage.backing.siz(stageW, stageH);
+            instructionPage.backBtn.loc(stageW*.1, stageH*.05);
+            
+            // scaling wordPage
+            wordPage.setBounds(stageW, stageH);
+            wordPage.backing.siz(stageW, stageH);
+            wordPage.playBtn.center().mov(80, 100);
+            wordPage.shuffleBtn.center().mov(-80, 100);
+            wordPage.word.center().mov(0, -120);
+            
+            // scaling gamePage
+            layoutManager.resize();
+            // gamePage.setBounds(stageW, stageH);
+            // gamePage.backing.siz(stageW, stageH);
+            // gamePage.header.siz(stageW, stageH*.1).pos(0,0, LEFT, TOP);
+            // gamePage.footer.siz(stageW, stageH*.1).pos(0,0, LEFT, BOTTOM);
+            // gamePage.score.center().pos(10, 0, LEFT, CENTER, gamePage.header);
+            // gamePage.scoreValue.center().pos(70, 0, LEFT, CENTER, gamePage.header);
+            // gamePage.timer.center().pos(90, 0, RIGHT, CENTER, gamePage.header);
+            // gamePage.timerValue.center().pos(10,0, RIGHT, CENTER, gamePage.header);
+            
+            // grid.resize();
+
+            stage.update();
+        });
+
+        stage.update(); 
+
+    }); 
+
 
 </script>
 
