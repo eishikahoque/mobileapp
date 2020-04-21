@@ -381,7 +381,7 @@
             ], 0, null, true, new Shape(), stage
         ));
         
-        // layoutManager.dispose();
+        layoutManager.dispose();
 
         const endLayout = new LayoutManager();
         endLayout.add(
@@ -393,7 +393,7 @@
             ], 0, '#840C43', true, new Shape(), stage
         ));
         
-        // endLayout.dispose();
+        endLayout.dispose();
 
         // TRANSITION FOR ALL PAGES 
         
@@ -408,7 +408,7 @@
             transition: "slide"
         }).addTo();
         
-        const grid = new Grid(); 
+        // const grid = new Grid(); 
 
         // RESIZE FRAME 
         
@@ -452,7 +452,7 @@
             // endGamePage.endGameLabel.loc(stageW*0.2, stageH*.7);
             // endGamePage.playAgainBtn.loc( stageW*0.2, stageH*.8);
             
-            grid.resize();
+            // grid.resize();
 
             stage.update();
         });
