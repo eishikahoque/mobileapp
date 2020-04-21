@@ -276,10 +276,10 @@
             corner: 5, 
             backgroundColor: '#840C43',
             rollBackgroundColor: '#840C43',
-            width: 150, 
+            width: 160, 
             height: 70
         })
-            .pos(5, 0, RIGHT, CENTER, calculateScoreFooter);
+            .pos(10, 0, RIGHT, CENTER, calculateScoreFooter);
 
         let endGameLogo = null;
 
@@ -294,7 +294,7 @@
                 if(scoreValue.score <= 2) {
                     endGameScoreLabel.text = 'Your score is ' + scoreValue.score;
                     endGameLogo = asset(logoSad);
-                    endGamePage.endGameLabel.text = 'Better luck next time!';
+                    endGamePage.endGameLabel.text = 'Better luck\nnext time!';
                     
                 } else if(scoreValue.score === 3) {
                     endGameScoreLabel.text = 'Your score is ' + scoreValue.score;
@@ -320,10 +320,10 @@
             corner: 5, 
             backgroundColor: '#141414',
             rollBackgroundColor: '#141414',
-            width: 150, 
+            width: 160, 
             height: 70
         })
-            .pos(5, 0, LEFT, CENTER, calculateScoreFooter);
+            .pos(10, 0, LEFT, CENTER, calculateScoreFooter);
 
         incorrectBtn.on('click', () => {
             startNextWord();
@@ -376,7 +376,7 @@
             ...defaultLabel,
             text: '',
             size: 28
-        }).pos(endGamePage.width*.15, 0, LEFT, CENTER, messageContainer);
+        }).pos(endGamePage.width*.35, 0, LEFT, CENTER, messageContainer);
 
         const endGameButton = new Container(endGamePage.width, endGamePage.height*.1).pos(0, 0, LEFT, BOTTOM, endGamePage);
         endGamePage.playAgainBtn = new Button({
@@ -426,9 +426,9 @@
         
         const pages = new Pages({
             pages: [
-                {page: home, swipe:[wordPage, instructionPage, null, null]},
-                {page: wordPage, swipe:[null, home,  null, null]},
-                {page: instructionPage, swipe:[home, null,  null, null]},
+                {page: home, swipe:[instructionPage, wordPage, null, null]},
+                {page: wordPage, swipe:[home, null,  null, null]},
+                {page: instructionPage, swipe:[null, home,  null, null]},
                 {page: gamePage, swipe:[null, null,  null, null]},
                 {page: endGamePage, swipe:[null, home,  null, null]},
             ],
@@ -456,7 +456,7 @@
             instructionPage.backing.siz(stageW, stageH);
             instructionPage.instructionTitle.pos(0, stageH*.05, CENTER, TOP);
             instructionPage.instruction.pos(stageW*.05, stageH*.125, LEFT, TOP);
-            instructionPage.backBtn.pos(0, stageH*.05, CENTER, BOTTOM);
+            instructionPage.backBtn.pos(stageW*.05, stageH*.05, RIGHT, BOTTOM);
             
             // scaling wordPage
             wordPage.setBounds(stageW, stageH);
