@@ -157,7 +157,7 @@ try
     doc.info = null;  // delete metadata
 
     var screens = [
-	{"name": "splash.png", "width":320, "height":480},
+	{"name": "splash.png", "width":360, "height":480},
 	{"name": "splash/portrait/ios/Default.png", "width":320, "height":480},
 	{"name": "splash/portrait/ios/Default@2x.png", "width":640, "height":960},
 	{"name": "splash/portrait/ios/Default-568h@2x.png", "width":640, "height":1136},
