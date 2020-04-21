@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Drawing Game</title>
+<title>RapidPaint</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
 
 <script>
@@ -14,7 +14,6 @@
 <script src="https://zimjs.org/cdn/1.2.4/createjs.js"></script>
 <script src="https://zimjs.org/cdn/10.8.0/zim.js"></script>
 <script src="https://zimjs.org/cdn/game_2.2.js"></script>
-<script src="https://d309knd7es5f10.cloudfront.net/pizzazz_02.js"></script>
 
 
 <script>
@@ -24,8 +23,11 @@
     const height = null;
     const color = 'black'; 
     const outerColor = 'black'; 
+    const assets = ['logo.png', 'title.png', 'logo-happy.png', 'logo-sad.png', 'logo-okay.png'];
+    const path = 'asset/';
+    const orginalWords = ['Dinosaur', 'Dragon', 'Angry', 'Baby', 'Book', 'Butterfly', 'Crayon', ' Eiffel Tower', 'Fireworks', 'Flower', 'Giraffe', 'High Heels', 'Ice Cream', 'Lion', 'Pizza', 'Rainbow', 'Snowflake', 'Stawberry', 'Blueberry', 'Toothbrush', 'Truck', 'Brain', 'Castle', 'Computer', 'Circus Tent', 'Dumbbell', 'Umbrella', 'Ferris Wheel', 'Flag', ' Lipstick', 'Lobster', 'Lollipop', 'Mermaid', 'Music', 'Nurse', 'Owl', 'Piano', 'Playground', 'Apple Pie', 'Raindrop', 'Robot', 'Sprinkler', 'Telescope', 'Train', 'Tutu', 'Birthday', 'Blizzard', 'Burrito', 'Captain', 'Chandelier', 'Crib', 'Dance', 'Full Moon', 'Glue', 'Hockey', 'Hotel', 'Koala', 'Light', 'Mask', 'Mom', 'Dad', 'Photo', 'Pirate', 'Egg', ' Space', 'Tourist', 'Wifi', 'Canada', 'United States', 'Zombies', 'Basketball', 'Soccer', 'Golf', 'Scissors', 'Rock', 'Airplane', 'Anchor', 'Astronaut', 'Doctor', 'Christmas Tree', 'Dress', 'Apple', 'Banana', 'Grape', 'Bubbles', 'Cereal', 'Cloud', 'Superman', 'Batman', 'Iron Man', 'Easter', 'Halloween', 'Cricket', 'Spider', 'Moutain', 'Sofa', 'Chocolate', 'Bouquet', 'Picnic', 'Gas', 'Bike', 'Bed', 'Bell', 'Jellyfish', 'Kangaroo', 'Penguin', 'Jeans', 'Nails', 'Watermelon', 'Wind', 'Jungle', 'Diaper', 'Scream', 'Password', 'Vegetarian', 'Bagel', 'Taj Mahal', 'Injection', 'Black Hole', 'Corona Virus', 'Thermometer', 'DVD', 'TV', 'Gold Fish'];
 
-    const frame = new Frame(scaling, width, height, color, outerColor);
+    const frame = new Frame(scaling, width, height, color, outerColor, assets, path);
     frame.on("ready", () => { 
         zog("ready from ZIM Frame"); 
 
@@ -33,7 +35,11 @@
         let stageW = frame.width;
         let stageH = frame.height;
 
-        let wordChoices = ['Dinosaur', 'Dragon', 'Angry', 'Baby', 'Book', 'Butterfly', 'Crayon', ' Eiffel Tower', 'Fireworks', 'Flower', 'Giraffe', 'High Heels', 'Ice Cream', 'Lion', 'Pizza', 'Rainbow', 'Snowflake', 'Stawberry', 'Blueberry', 'Toothbrush', 'Truck', 'Brain', 'Castle', 'Computer', 'Circus Tent', 'Dumbbell', 'Ferris Wheel', 'Flag', ' Lipstick', 'Lobster', 'Lollipop', 'Mermaid', 'Music', 'Nurse', 'Owl', 'Piano', 'Playground', 'Apple Pie', 'Raindrop', 'Robot', 'Sprinkler', 'Telescope', 'Train', 'Tutu', 'Birthday', 'Blizzard', 'Burrito', 'Captain', 'Chandelier', 'Crib', 'Dance', 'Full Moon', 'Glue', 'Hockey', 'Hotel', 'Koala', 'Light', 'Mask', 'Mom', 'Dad', 'Photo', 'Pirate', 'Egg', ' Space', 'Tourist', 'Wifi', 'Canada', 'United States', 'Zombies', 'Basketball', 'Soccer', 'Golf', 'Scissors', 'Rock', 'Airplane', 'Anchor', 'Astronaut', 'Doctor', 'Christmas Tree', 'Dress', 'Apple', 'Banana', 'Grape', 'Bubbles', 'Cereal', 'Cloud', 'Superman', 'Batman', 'Iron Man', 'Easter', 'Halloween', 'Cricket', 'Spider', 'Moutain', 'Sofa', 'Chocolate', 'Bouquet', 'Picnic', 'Gas', 'Bike', 'Bed', 'Bell', 'Jellyfish', 'Kangaroo', 'Penguin', 'Jeans', 'Nails', 'Watermelon', 'Wind', 'Jungle', 'Diaper', 'Scream', 'Password', 'Vegetarian', 'Bagel', 'Taj Mahal', 'Injection', 'Black Hole', 'Corona Virus', 'Thermometer', 'DVD', 'TV', 'Gold Fish'];
+        let wordChoices = orginalWords;
+
+        const logoSad = 'logo-sad.png';
+        const logoOkay = 'logo-okay.png';
+        const logoHappy = 'logo-happy.png';
 
         const defaultLabel = {
             size: '24',
@@ -73,6 +79,9 @@
 
         const home = new Container(stageW, stageH);
         home.backing = new Rectangle(home.width, home.height, '#840C43').addTo(home);
+        const logoIcon = asset('logo.png').sca(0.2).center(home);
+        const title = asset('title.png').sca(0.3).center(home);
+
         home.startBtn = new Button({
             width: 250,
             height: 60,
@@ -81,6 +90,10 @@
             rollBackgroundColor: '#F9F9F9',
             corner: 5
         }).center(home);
+
+        home.startBtn.on("mousedown", () => { 
+            pages.go(wordPage, "right");
+        });
 
         home.instructionsBtn = new Button({
             width: 250,
@@ -91,9 +104,6 @@
             corner: 5
         }).center(home);
 
-        home.startBtn.on("mousedown", () => { 
-            pages.go(wordPage, "right");
-        });
 
         home.instructionsBtn.on("mousedown", () => { 
             pages.go(instructionPage, "left");
@@ -119,12 +129,19 @@
 
         const wordPage = new Container(stageW, stageH);
         wordPage.backing = new Rectangle(wordPage.width, wordPage.height, '#840C43').addTo(wordPage);
+        const logo2 = logoIcon.clone().sca(0.2).center(wordPage);
 
-        let potentialWord = shuffle(wordChoices)[0];
-        wordChoices = wordChoices.filter((word) => word !== potentialWord);
+        let numberOfGamesPlayed = 0;
+
+        const getNewWord = () => {
+            const word = shuffle(wordChoices)[0];
+            wordChoices = wordChoices.filter(w => w !== word);
+            return word;
+        }
+
         wordPage.word = new Label({
             ...defaultLabel,
-            text: potentialWord,
+            text: getNewWord(),
             size: 48,
             align: 'center'
         }).center(wordPage);
@@ -148,16 +165,16 @@
         }).center(wordPage);
 
         wordPage.shuffleBtn.on("mousedown", () => {
-            potentialWord = shuffle(wordChoices)[0];
-            wordChoices = wordChoices.filter((word) => word !== potentialWord);
-            wordPage.word.text = potentialWord;
+            wordPage.word.text = getNewWord();
             stage.update();
         });
 
-        wordPage.playBtn.on("mousedown", () => { 
+        wordPage.playBtn.on("mousedown", () => {
+            numberOfGamesPlayed++; 
+            colorFooter.addTo(gamePage);
+            clearBtn.addTo(gamePage).pos(gamePage.width*.02, gamePage.height*.12, LEFT, TOP);
             pages.go(gamePage, "right");
-            timerValue.start(15)
-
+            timerValue.start(45);
         });
 
         // GAME PAGE
@@ -204,12 +221,13 @@
         timerValue.on('complete', () => {
             colorFooter.removeFrom(gamePage);
             pen.stop(gamePage);
+            pen.write = false;
             clearBtn.removeFrom(gamePage)
-            calculateScoreFooter.pos(0, 20, CENTER, BOTTOM, gamePage);
+            calculateScoreFooter.pos(0, 10, LEFT, BOTTOM, gamePage);
         });
          
         // FOOTER 
-        const colorFooter = new Container(gamePage.width, gamePage.height*.1).addTo(gamePage);
+        const colorFooter = new Container(gamePage.width, gamePage.height*.1);
         
         // COLOR PICKER
         let colors = new ColorPicker({
@@ -226,20 +244,50 @@
             pen.color = e.target.selectedColor;
         });
 
-        const calculateScoreFooter = new Container(gamePage.width*.5, gamePage.height*.1);
+        const calculateScoreFooter = new Container(gamePage.width, gamePage.height*.2);
 
         let successBtn = new Button({
             label: new  Label({ ...defaultLabel, text: 'Correct'}),
             corner: 5, 
             backgroundColor: '#840C43',
             rollBackgroundColor: '#840C43',
-            width: 175, 
+            width: 150, 
             height: 70
-        }).pos(0, 0, RIGHT, CENTER, calculateScoreFooter);
+        })
+            .pos(0, 0, RIGHT, CENTER, calculateScoreFooter);
+
+        let endGameLogo = null;
+
+        const startNextWord = () => {
+            if(numberOfGamesPlayed < 5) {
+                wordPage.word.text = getNewWord();
+                pages.go(wordPage, 'up');
+                pen.clear();
+                calculateScoreFooter.removeFrom(gamePage);
+            } else {
+                pages.go(endGamePage, 'up')
+                if(scoreValue.score <= 2) {
+                    endGameScoreLabel.text = 'Your score is ' + scoreValue.score;
+                    endGameLogo = asset(logoSad).scaleTo(headerImg, null, null, 'both').pos(0, 0, CENTER, TOP, headerImg);
+                    endGamePage.endGameLabel.text = 'Better luck next time!';
+                    
+                } else if(scoreValue.score === 3) {
+                    endGameScoreLabel.text = 'Your score is ' + scoreValue.score;
+                    endGameLogo = asset(logoOkay).scaleTo(headerImg, null, null, 'both').pos(0, 0, CENTER, TOP, headerImg);
+                    endGamePage.endGameLabel.text = 'Nice Work!';
+                    
+                } else if(scoreValue.score >= 4) {
+                    endGameScoreLabel.text = 'Your score is ' + scoreValue.score;
+                    endGameLogo = asset(logoHappy).scaleTo(headerImg, null, null, 'both').pos(0, 0, CENTER, TOP, headerImg);
+                    endGamePage.endGameLabel.text = 'Great Job!';
+                }
+                endGameLogo.sca(0.2).center(endGamePage)
+            }
+        }
 
         successBtn.on('click', () => {
-            scoreValue + 1;
-            pages.go(wordPage, 'down');
+            scoreValue.score++;
+            startNextWord();
         });
         
         let incorrectBtn = new Button({
@@ -247,12 +295,13 @@
             corner: 5, 
             backgroundColor: '#141414',
             rollBackgroundColor: '#141414',
-            width: 175, 
+            width: 150, 
             height: 70
-        }).pos(0, 0, LEFT, CENTER, calculateScoreFooter);
+        })
+            .pos(0, 0, LEFT, CENTER, calculateScoreFooter);
 
         incorrectBtn.on('click', () => {
-            scoreValue + 0
+            startNextWord();
         });
         
         // CANVAS
@@ -265,7 +314,7 @@
             rollBackgroundColor: 'black',
             width: 80,
             height: 50,
-        }).pos(gamePage.width*.02, gamePage.height*.12, LEFT, TOP, gamePage)
+        }).pos(gamePage.width*.02, gamePage.height*.12, LEFT, TOP)
 
         clearBtn.on('click', () => {
             pen.clear();
@@ -277,8 +326,6 @@
             draggable: false
         }).center(gamePage);
 
-        // stop dragging
-
         const motionController = new MotionController({
             target: pen, 
             type: "pressmove",
@@ -286,37 +333,82 @@
             damp: 0.9,
         });
 
+        // END GAME 
+        const endGamePage = new Container(stageW, stageH);
+        // endGamePage.backing = new Rectangle(endGamePage.width, endGamePage.height, '#840C43').center(endGamePage);
+        const headerImg = new Container(endGamePage.width, endGamePage.height*.3).pos(0, 0, LEFT, TOP, endGamePage);
 
+        const content = new Container(endGamePage.width, endGamePage.height).addTo(endGamePage);
 
-        // const scoreCalculatePage = new Container(stageW/2, stage/2);
-        // scoreCalculatePage.backing = new Rectangle(scoreCalculatePage.width, scoreCalculatePage.height).center(scoreCalculatePage)
+        endGamePage.endGameLabel = new Label({
+            ...defaultLabel,
+            text: '',
+            size: 32,
+        }).center(content).pos(160, 100, LEFT, CENTER, content);
 
+        let endGameScoreLabel = new Label({
+            ...defaultLabel,
+            text: '',
+            size: 32,
+        }).center(content).pos(160, 0, LEFT, CENTER, content);
+
+        const endGameButton = new Container(endGamePage.width, endGamePage.height*.2).pos(0, 0, LEFT, BOTTOM, endGamePage);
+        endGamePage.playAgainBtn = new Button({
+            width: 130,
+            height: 60,
+            label: new Label({ ...defaultLabel, text: 'Play Again', color: '#840C43'}),
+            backgroundColor: '#fff',
+            rollBackgroundColor: '#ffff',
+            corner: 5
+        }).scaleTo(endGameButton).center(endGameButton);
+        
+
+        endGamePage.playAgainBtn.on('click', () => {
+            wordChoices= orginalWords;
+            numberOfGamesPlayed = 0;
+            scoreValue.score = 0;
+            pages.go(home, 'up');
+        });
+        
     // LAYOUT MANAGER
         
         const layoutManager = new LayoutManager();
         layoutManager.add(
             new Layout(gamePage,
             [
-                { object: header, backgroundColor: '#840C43' }, 
-                { object: colorFooter, backgroundColor: '#000' }
-            ], 0, null, true, null, stage
+                { object: header, backgroundColor: '#840C43', valign: 'top'}, 
+                { object: colorFooter, backgroundColor: '#000', valign: 'bottom'},
+            ], 0, null, true, new Shape(), stage
         ));
         
-        layoutManager.dispose();
+        // layoutManager.dispose();
+
+        const endLayout = new LayoutManager();
+        endLayout.add(
+            new Layout(endGamePage,
+            [
+                { object: headerImg, backgroundColor: '#840C43', valign: 'top'},
+                { object: content, backgroundColor: '#840C43'},
+                { object: endGameButton, backgroundColor: '#840C43', valign: 'bottom'},
+            ], 0, '#840C43', true, new Shape(), stage
+        ));
+        
+        // endLayout.dispose();
 
         // TRANSITION FOR ALL PAGES 
         
         const pages = new Pages({
             pages: [
                 {page: home, swipe:[wordPage, instructionPage, null, null]}, // swipe:["right", "left", "down", "up"]
-                {page: wordPage, swipe:[gamePage, home,  null, null]},
+                {page: wordPage, swipe:[null, home,  null, null]},
                 {page: instructionPage, swipe:[home, null,  null, null]},
                 {page: gamePage, swipe:[null, null,  null, null]},
+                {page: endGamePage, swipe:[null, home,  null, null]},
             ],
             transition: "slide"
         }).addTo();
         
-        // const grid = new Grid(); 
+        const grid = new Grid(); 
 
         // RESIZE FRAME 
         
@@ -327,9 +419,11 @@
             // scaling home
             home.setBounds(stageW, stageH);
             home.backing.siz(stageW, stageH);
+            logoIcon.center().mov(0, -150);
+            title.center().mov(0, 50);
             home.startBtn.center().mov(0, 150);
             home.instructionsBtn.center().mov(0, 225);
-
+            
             // scaling instructionPage
             instructionPage.setBounds(stageW, stageH);
             instructionPage.backing.siz(stageW, stageH);
@@ -338,15 +432,27 @@
             // scaling wordPage
             wordPage.setBounds(stageW, stageH);
             wordPage.backing.siz(stageW, stageH);
-            wordPage.playBtn.center().mov(80, 100);
-            wordPage.shuffleBtn.center().mov(-80, 100);
-            wordPage.word.center().mov(0, -120);
-            
+            logo2.center().mov(0, -150);
+            wordPage.playBtn.center().mov(80, 150);
+            wordPage.shuffleBtn.center().mov(-80, 150);
+            wordPage.word.center().mov(0, 50);
+
             // scaling gamePage
             layoutManager.resize();
             gamePage.setBounds(stageW, stageH);
+
+            // scaling endGamePage
+            endLayout.resize();
+            endGamePage.setBounds(stageW, stageH);
+            // endGamePage.backing.siz(stageW, stageH);
+            // if(endGameLogo){
+            //     endGameLogo.loc(stageW*0.2, stageH*.1);
+            // }
+            // endGameScoreLabel.center();
+            // endGamePage.endGameLabel.loc(stageW*0.2, stageH*.7);
+            // endGamePage.playAgainBtn.loc( stageW*0.2, stageH*.8);
             
-            // grid.resize();
+            grid.resize();
 
             stage.update();
         });
