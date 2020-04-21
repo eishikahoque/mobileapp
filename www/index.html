@@ -22,7 +22,7 @@
     const width = null;
     const height = null;
     const color = 'black'; 
-    const outerColor = 'black'; 
+    const outerColor = '#840C43'; 
     const assets = ['logo.png', 'title.png', 'logo-happy.png', 'logo-sad.png', 'logo-okay.png'];
     const path = 'asset/';
     const orginalWords = ['Dinosaur', 'Dragon', 'Angry', 'Baby', 'Book', 'Butterfly', 'Crayon', ' Eiffel Tower', 'Fireworks', 'Flower', 'Giraffe', 'High Heels', 'Ice Cream', 'Lion', 'Pizza', 'Rainbow', 'Snowflake', 'Stawberry', 'Blueberry', 'Toothbrush', 'Truck', 'Brain', 'Castle', 'Computer', 'Circus Tent', 'Dumbbell', 'Umbrella', 'Ferris Wheel', 'Flag', ' Lipstick', 'Lobster', 'Lollipop', 'Mermaid', 'Music', 'Nurse', 'Owl', 'Piano', 'Playground', 'Apple Pie', 'Raindrop', 'Robot', 'Sprinkler', 'Telescope', 'Train', 'Tutu', 'Birthday', 'Blizzard', 'Burrito', 'Captain', 'Chandelier', 'Crib', 'Dance', 'Full Moon', 'Glue', 'Hockey', 'Hotel', 'Koala', 'Light', 'Mask', 'Mom', 'Dad', 'Photo', 'Pirate', 'Egg', ' Space', 'Tourist', 'Wifi', 'Canada', 'United States', 'Zombies', 'Basketball', 'Soccer', 'Golf', 'Scissors', 'Rock', 'Airplane', 'Anchor', 'Astronaut', 'Doctor', 'Christmas Tree', 'Dress', 'Apple', 'Banana', 'Grape', 'Bubbles', 'Cereal', 'Cloud', 'Superman', 'Batman', 'Iron Man', 'Easter', 'Halloween', 'Cricket', 'Spider', 'Moutain', 'Sofa', 'Chocolate', 'Bouquet', 'Picnic', 'Gas', 'Bike', 'Bed', 'Bell', 'Jellyfish', 'Kangaroo', 'Penguin', 'Jeans', 'Nails', 'Watermelon', 'Wind', 'Jungle', 'Diaper', 'Scream', 'Password', 'Vegetarian', 'Bagel', 'Taj Mahal', 'Injection', 'Black Hole', 'Corona Virus', 'Thermometer', 'DVD', 'TV', 'Gold Fish'];
@@ -126,7 +126,7 @@
             align: 'left',
             size: 21,
             lineHeight: 28,
-            text: "1. Click start to play.\n\n2. You will be given a word to \ndraw out. If you don't like or know \nthe word, you can press the \nshuffle button to get a new word. \n\n3. Once you are ready to start, \npress play! \n\n4. You have 45 seconds to \ndraw out the word & have \nyour team guess your word. \nYou can use the different colors \nat the bottom & if you finish early \nyou can click the time to process. \nYou get five turns to play your \nround before passing it \nto the next team. \n\n5. Have fun!"
+            text: "1. Click start to play.\n\n2. You will be given a word to \ndraw out. If you don't like or know \nthe word, you can press the \nshuffle button to get a new word. \n\n3. Once you are ready to start, \npress play! \n\n4. You have 45 seconds to \ndraw out the word & have \nyour team guess your word. \nYou can use different colors \nat the bottom & if you finish early,\nclick on the timer to move next. \nYou get five turns to play your \nround before passing it \nto the next team. \n\n5. Have fun!"
         }).center(instructionPage);
 
         instructionPage.backBtn = new Button({
@@ -375,7 +375,8 @@
         endGamePage.endGameLabel = new Label({
             ...defaultLabel,
             text: '',
-            size: 28
+            size: 28,
+            lineHeight: 30
         }).pos(endGamePage.width*.35, 0, LEFT, CENTER, messageContainer);
 
         const endGameButton = new Container(endGamePage.width, endGamePage.height*.1).pos(0, 0, LEFT, BOTTOM, endGamePage);
