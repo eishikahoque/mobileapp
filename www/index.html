@@ -114,18 +114,24 @@
         const instructionPage = new Container(stageW, stageH);
         instructionPage.backing = new Rectangle(instructionPage.width, instructionPage.height, '#840C43').addTo(instructionPage);
 
+        instructionPage.instructionTitle = new Label({
+            ...defaultLabel, 
+            align: 'center', 
+            text: 'Instructions\n',
+            size: 32,
+        }).center(instructionPage);
+
         instructionPage.instruction = new Label({
             ...defaultLabel,
-            align: 'center',
-            size: '21',
-            paddingVertical: 20,
-            lineHeight: 35,
-            text: "Click start to play.\n You will be given a word to draw out. \n If you don't like or know the word, \n you can press the shuffle button \n to get a new word. \n Once you are ready to start, \n press play! \n You have 45 seconds to \n draw out the word & have your team \n guess your word. \n You can use the \n different colors at the bottom \n and if you finish early \n you can click the time to process. \n You get five turns to play your round \n before passing it to the next team. \n Lastly, have fun!"
+            align: 'left',
+            size: 21,
+            lineHeight: 28,
+            text: "1. Click start to play.\n\n2. You will be given a word to \ndraw out. If you don't like or know \nthe word, you can press the \nshuffle button to get a new word. \n\n3. Once you are ready to start, \npress play! \n\n4. You have 45 seconds to \ndraw out the word & have \nyour team guess your word. \nYou can use the different colors \nat the bottom & if you finish early \nyou can click the time to process. \nYou get five turns to play your \nround before passing it \nto the next team. \n\n5. Have fun!"
         }).center(instructionPage);
 
         instructionPage.backBtn = new Button({
-            width: 75,
-            height: 60,
+            width: 80,
+            height: 50,
             label: backBtn,
             backgroundColor: '#fff',
             rollBackgroundColor: '#F9F9F9',
@@ -141,7 +147,7 @@
         wordPage.backing = new Rectangle(wordPage.width, wordPage.height, '#840C43').addTo(wordPage);
         const logo2 = logoIcon.clone().sca(0.2).center(wordPage);
 
-        let numberOfGamesPlayed = 4;
+        let numberOfGamesPlayed = 0;
 
         const getNewWord = () => {
             const word = shuffle(wordChoices)[0];
@@ -184,7 +190,7 @@
             colorFooter.addTo(gamePage);
             clearBtn.addTo(gamePage).pos(gamePage.width*.02, gamePage.height*.12, LEFT, TOP);
             pages.go(gamePage, "right");
-            timerValue.start(15);
+            timerValue.start(45);
         });
 
         // GAME PAGE
@@ -448,8 +454,9 @@
             // scaling instructionPage
             instructionPage.setBounds(stageW, stageH);
             instructionPage.backing.siz(stageW, stageH);
-            instructionPage.instruction.center();
-            instructionPage.backBtn.loc(stageW*.1, stageH*.05);
+            instructionPage.instructionTitle.pos(0, stageH*.05, CENTER, TOP);
+            instructionPage.instruction.pos(stageW*.05, stageH*.125, LEFT, TOP);
+            instructionPage.backBtn.pos(0, stageH*.05, CENTER, BOTTOM);
             
             // scaling wordPage
             wordPage.setBounds(stageW, stageH);
