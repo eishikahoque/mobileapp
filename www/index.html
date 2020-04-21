@@ -12,7 +12,7 @@
 	var zns = false; // set to true to require zim namespace - eg. new zim.Frame()
 </script>
 <script src="https://zimjs.org/cdn/1.2.4/createjs.js"></script>
-<script src="https://zimjs.org/cdn/10.8.0/zim.js"></script>
+<script src="https://zimjs.org/cdn/10.9.0/zim.js"></script>
 <script src="https://zimjs.org/cdn/game_2.2.js"></script>
 
 
@@ -113,6 +113,16 @@
 
         const instructionPage = new Container(stageW, stageH);
         instructionPage.backing = new Rectangle(instructionPage.width, instructionPage.height, '#840C43').addTo(instructionPage);
+
+        instructionPage.instruction = new Label({
+            ...defaultLabel,
+            align: 'center',
+            size: '21',
+            paddingVertical: 20,
+            lineHeight: 35,
+            text: "Click start to play.\n You will be given a word to draw out. \n If you don't like or know the word, \n you can press the shuffle button \n to get a new word. \n Once you are ready to start, \n press play! \n You have 45 seconds to \n draw out the word & have your team \n guess your word. \n You can use the \n different colors at the bottom \n and if you finish early \n you can click the time to process. \n You get five turns to play your round \n before passing it to the next team. \n Lastly, have fun!"
+        }).center(instructionPage);
+
         instructionPage.backBtn = new Button({
             width: 75,
             height: 60,
@@ -131,7 +141,7 @@
         wordPage.backing = new Rectangle(wordPage.width, wordPage.height, '#840C43').addTo(wordPage);
         const logo2 = logoIcon.clone().sca(0.2).center(wordPage);
 
-        let numberOfGamesPlayed = 0;
+        let numberOfGamesPlayed = 4;
 
         const getNewWord = () => {
             const word = shuffle(wordChoices)[0];
@@ -174,7 +184,7 @@
             colorFooter.addTo(gamePage);
             clearBtn.addTo(gamePage).pos(gamePage.width*.02, gamePage.height*.12, LEFT, TOP);
             pages.go(gamePage, "right");
-            timerValue.start(45);
+            timerValue.start(15);
         });
 
         // GAME PAGE
@@ -217,6 +227,15 @@
                 timerValue.color = '#FF0000';
             }
         });
+
+        timerValue.on('click', () => {
+            timerValue.stop();
+            pen.stop(gamePage);
+            colorFooter.removeFrom(gamePage);
+            pen.write = false;
+            clearBtn.removeFrom(gamePage)
+            calculateScoreFooter.pos(0, 10, LEFT, BOTTOM, gamePage);
+        });
         
         timerValue.on('complete', () => {
             colorFooter.removeFrom(gamePage);
@@ -254,7 +273,7 @@
             width: 150, 
             height: 70
         })
-            .pos(0, 0, RIGHT, CENTER, calculateScoreFooter);
+            .pos(5, 0, RIGHT, CENTER, calculateScoreFooter);
 
         let endGameLogo = null;
 
@@ -268,20 +287,20 @@
                 pages.go(endGamePage, 'up')
                 if(scoreValue.score <= 2) {
                     endGameScoreLabel.text = 'Your score is ' + scoreValue.score;
-                    endGameLogo = asset(logoSad).scaleTo(headerImg, null, null, 'both').pos(0, 0, CENTER, TOP, headerImg);
+                    endGameLogo = asset(logoSad);
                     endGamePage.endGameLabel.text = 'Better luck next time!';
                     
                 } else if(scoreValue.score === 3) {
                     endGameScoreLabel.text = 'Your score is ' + scoreValue.score;
-                    endGameLogo = asset(logoOkay).scaleTo(headerImg, null, null, 'both').pos(0, 0, CENTER, TOP, headerImg);
+                    endGameLogo = asset(logoOkay);
                     endGamePage.endGameLabel.text = 'Nice Work!';
                     
                 } else if(scoreValue.score >= 4) {
                     endGameScoreLabel.text = 'Your score is ' + scoreValue.score;
-                    endGameLogo = asset(logoHappy).scaleTo(headerImg, null, null, 'both').pos(0, 0, CENTER, TOP, headerImg);
+                    endGameLogo = asset(logoHappy);
                     endGamePage.endGameLabel.text = 'Great Job!';
                 }
-                endGameLogo.sca(0.2).center(endGamePage)
+                endGameLogo.sca(0.2).pos(0, 10, CENTER, TOP).center(endGameHeader)
             }
         }
 
@@ -298,7 +317,7 @@
             width: 150, 
             height: 70
         })
-            .pos(0, 0, LEFT, CENTER, calculateScoreFooter);
+            .pos(5, 0, LEFT, CENTER, calculateScoreFooter);
 
         incorrectBtn.on('click', () => {
             startNextWord();
@@ -314,7 +333,7 @@
             rollBackgroundColor: 'black',
             width: 80,
             height: 50,
-        }).pos(gamePage.width*.02, gamePage.height*.12, LEFT, TOP)
+        }).pos(gamePage.width*.02, gamePage.height*.13, LEFT, TOP)
 
         clearBtn.on('click', () => {
             pen.clear();
@@ -335,24 +354,25 @@
 
         // END GAME 
         const endGamePage = new Container(stageW, stageH);
-        // endGamePage.backing = new Rectangle(endGamePage.width, endGamePage.height, '#840C43').center(endGamePage);
-        const headerImg = new Container(endGamePage.width, endGamePage.height*.3).pos(0, 0, LEFT, TOP, endGamePage);
+        const endGameHeader = new Container(endGamePage.width, endGamePage.height*.5).pos(0, 0, LEFT, TOP, endGamePage);
 
-        const content = new Container(endGamePage.width, endGamePage.height).addTo(endGamePage);
+
+        const finalScoreContainer = new Container(endGamePage.width, endGamePage.height*.1).center(endGamePage);
+        let endGameScoreLabel = new Label({
+            ...defaultLabel,
+            text: '',
+            size: 32
+        }).pos(endGamePage.width*.25, 0, LEFT, CENTER, finalScoreContainer);
+
+        const messageContainer = new Container(endGamePage.width, endGamePage.height*.1).center(endGamePage);
 
         endGamePage.endGameLabel = new Label({
             ...defaultLabel,
             text: '',
-            size: 32,
-        }).center(content).pos(160, 100, LEFT, CENTER, content);
+            size: 28
+        }).pos(endGamePage.width*.15, 0, LEFT, CENTER, messageContainer);
 
-        let endGameScoreLabel = new Label({
-            ...defaultLabel,
-            text: '',
-            size: 32,
-        }).center(content).pos(160, 0, LEFT, CENTER, content);
-
-        const endGameButton = new Container(endGamePage.width, endGamePage.height*.2).pos(0, 0, LEFT, BOTTOM, endGamePage);
+        const endGameButton = new Container(endGamePage.width, endGamePage.height*.1).pos(0, 0, LEFT, BOTTOM, endGamePage);
         endGamePage.playAgainBtn = new Button({
             width: 130,
             height: 60,
@@ -387,10 +407,11 @@
         endLayout.add(
             new Layout(endGamePage,
             [
-                { object: headerImg, backgroundColor: '#840C43', valign: 'top'},
-                { object: content, backgroundColor: '#840C43'},
-                { object: endGameButton, backgroundColor: '#840C43', valign: 'bottom'},
-            ], 0, '#840C43', true, new Shape(), stage
+                { object: endGameHeader, backgroundColor: '#840C43', valign: 'top', align: 'left'},
+                { object: finalScoreContainer, backgroundColor: '#840C43', valign: 'middle', align: 'left'},
+                { object: messageContainer, backgroundColor: '#840C43', valign: 'middle', align: 'left'},
+                { object: endGameButton, backgroundColor: '#840C43', valign: 'bottom', align: 'center'},
+            ], 20, '#840C43', true, new Shape(), stage
         ));
         
         endLayout.dispose();
@@ -399,7 +420,7 @@
         
         const pages = new Pages({
             pages: [
-                {page: home, swipe:[wordPage, instructionPage, null, null]}, // swipe:["right", "left", "down", "up"]
+                {page: home, swipe:[wordPage, instructionPage, null, null]},
                 {page: wordPage, swipe:[null, home,  null, null]},
                 {page: instructionPage, swipe:[home, null,  null, null]},
                 {page: gamePage, swipe:[null, null,  null, null]},
@@ -427,6 +448,7 @@
             // scaling instructionPage
             instructionPage.setBounds(stageW, stageH);
             instructionPage.backing.siz(stageW, stageH);
+            instructionPage.instruction.center();
             instructionPage.backBtn.loc(stageW*.1, stageH*.05);
             
             // scaling wordPage
@@ -444,14 +466,7 @@
             // scaling endGamePage
             endLayout.resize();
             endGamePage.setBounds(stageW, stageH);
-            // endGamePage.backing.siz(stageW, stageH);
-            // if(endGameLogo){
-            //     endGameLogo.loc(stageW*0.2, stageH*.1);
-            // }
-            // endGameScoreLabel.center();
-            // endGamePage.endGameLabel.loc(stageW*0.2, stageH*.7);
-            // endGamePage.playAgainBtn.loc( stageW*0.2, stageH*.8);
-            
+
             // grid.resize();
 
             stage.update();
