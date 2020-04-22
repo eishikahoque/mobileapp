@@ -25,7 +25,7 @@
     const outerColor = '#840C43'; 
     const assets = ['logo.png', 'title.png', 'logo-happy.png', 'logo-sad.png', 'logo-okay.png'];
     const path = 'asset/';
-    const orginalWords = ['Dinosaur', 'Dragon', 'Angry', 'Baby', 'Book', 'Butterfly', 'Crayon', ' Eiffel Tower', 'Fireworks', 'Flower', 'Giraffe', 'High Heels', 'Ice Cream', 'Lion', 'Pizza', 'Rainbow', 'Snowflake', 'Stawberry', 'Blueberry', 'Toothbrush', 'Truck', 'Brain', 'Castle', 'Computer', 'Circus Tent', 'Dumbbell', 'Umbrella', 'Ferris Wheel', 'Flag', ' Lipstick', 'Lobster', 'Lollipop', 'Mermaid', 'Music', 'Nurse', 'Owl', 'Piano', 'Playground', 'Apple Pie', 'Raindrop', 'Robot', 'Sprinkler', 'Telescope', 'Train', 'Tutu', 'Birthday', 'Blizzard', 'Burrito', 'Captain', 'Chandelier', 'Crib', 'Dance', 'Full Moon', 'Glue', 'Hockey', 'Hotel', 'Koala', 'Light', 'Mask', 'Mom', 'Dad', 'Photo', 'Pirate', 'Egg', ' Space', 'Tourist', 'Wifi', 'Canada', 'United States', 'Zombies', 'Basketball', 'Soccer', 'Golf', 'Scissors', 'Rock', 'Airplane', 'Anchor', 'Astronaut', 'Doctor', 'Christmas Tree', 'Dress', 'Apple', 'Banana', 'Grape', 'Bubbles', 'Cereal', 'Cloud', 'Superman', 'Batman', 'Iron Man', 'Easter', 'Halloween', 'Cricket', 'Spider', 'Moutain', 'Sofa', 'Chocolate', 'Bouquet', 'Picnic', 'Gas', 'Bike', 'Bed', 'Bell', 'Jellyfish', 'Kangaroo', 'Penguin', 'Jeans', 'Nails', 'Watermelon', 'Wind', 'Jungle', 'Diaper', 'Scream', 'Password', 'Vegetarian', 'Bagel', 'Taj Mahal', 'Injection', 'Black Hole', 'Corona Virus', 'Thermometer', 'DVD', 'TV', 'Gold Fish'];
+    const orginalWords = ['Dinosaur', 'Dragon', 'Angry', 'Recycle', 'Beard', 'Gingerbread Man', 'Door', 'Water', 'Ball', 'Moustache', 'Sun', 'Dominoes', 'Tea', 'Coffee', 'Broom', 'Harry Potter', 'Baby', 'Book', 'Butterfly', 'Crayon', ' Eiffel Tower', 'Fireworks', 'Flower', 'Giraffe', 'High Heels', 'Ice Cream', 'Lion', 'Pizza', 'Rainbow', 'Snowflake', 'Stawberry', 'Blueberry', 'Toothbrush', 'Truck', 'Brain', 'Castle', 'Computer', 'Circus Tent', 'Dumbbell', 'Umbrella', 'Ferris Wheel', 'Flag', ' Lipstick', 'Lobster', 'Lollipop', 'Mermaid', 'Music', 'Nurse', 'Owl', 'Piano', 'Playground', 'Apple Pie', 'Raindrop', 'Robot', 'Sprinkler', 'Telescope', 'Train', 'Tutu', 'Birthday', 'Blizzard', 'Burrito', 'Captain', 'Chandelier', 'Crib', 'Dance', 'Full Moon', 'Glue', 'Hockey', 'Hotel', 'Koala', 'Light', 'Mask', 'Mom', 'Dad', 'Photo', 'Pirate', 'Egg', ' Space', 'Tourist', 'Wifi', 'Canada', 'United States', 'Zombies', 'Basketball', 'Soccer', 'Golf', 'Scissors', 'Rock', 'Airplane', 'Anchor', 'Astronaut', 'Doctor', 'Christmas Tree', 'Dress', 'Apple', 'Banana', 'Grape', 'Bubbles', 'Cereal', 'Cloud', 'Superman', 'Batman', 'Iron Man', 'Easter', 'Halloween', 'Cricket', 'Spider', 'Moutain', 'Sofa', 'Chocolate', 'Bouquet', 'Picnic', 'Gas', 'Bike', 'Bed', 'Bell', 'Jellyfish', 'Kangaroo', 'Penguin', 'Jeans', 'Nails', 'Watermelon', 'Wind', 'Jungle', 'Diaper', 'Scream', 'Password', 'Vegetarian', 'Bagel', 'Taj Mahal', 'Injection', 'Black Hole', 'Corona Virus', 'Thermometer', 'DVD', 'TV', 'Gold Fish'];
 
     const frame = new Frame(scaling, width, height, color, outerColor, assets, path);
     frame.on("ready", () => { 
@@ -229,12 +229,13 @@
         .pos(10,0, RIGHT, CENTER, header);
         
         timerValue.on('step', () => {
-            if(timerValue.time <= 10) {
+            if (timerValue.time <= 10) {
                 timerValue.color = '#FF0000';
             }
         });
 
         timerValue.on('click', () => {
+            timerValue.color = '#fff';
             timerValue.stop();
             pen.stop(gamePage);
             colorFooter.removeFrom(gamePage);
@@ -244,6 +245,7 @@
         });
         
         timerValue.on('complete', () => {
+            timerValue.color = '#fff';
             colorFooter.removeFrom(gamePage);
             pen.stop(gamePage);
             pen.write = false;
@@ -284,8 +286,8 @@
         let endGameLogo = null;
 
         const startNextWord = () => {
+            wordPage.word.text = getNewWord();
             if(numberOfGamesPlayed < 5) {
-                wordPage.word.text = getNewWord();
                 pages.go(wordPage, 'up');
                 pen.clear();
                 calculateScoreFooter.removeFrom(gamePage);
@@ -391,7 +393,7 @@
         
 
         endGamePage.playAgainBtn.on('click', () => {
-            wordChoices= orginalWords;
+            wordChoices = orginalWords;
             numberOfGamesPlayed = 0;
             scoreValue.score = 0;
             pages.go(home, 'up');
